@@ -1,0 +1,71 @@
+[Key:]
+    + = added to programme
+    - = removed from programme
+    ~ = Upadated aspects of programme
+    ! = Fixed bugs
+    
+
+Version 1.0.0 [05/07/2019]:
+
++ added event listener for player logins to create unique yml files
++ added command "buywarp"
++ added vault compatibility
+~ updated plugin.yml
+
+
+Version 1.0.1 [05/07/2019]:
+
+~ updated command "buywarp" to check if sender is in fact a player
+~ updated to spigot 1.14.3
+
+
+Version 1.0.2 [06/07/2019]:
+
+~ updated "buywarp" to include the requirement of 1000 of whatever currency the server uses
++ added "Changelog.txt" to the files
+- removed Sarinsa's firewall
++ added comments to functions and portions of code
++ added "Sarinsa" as a noteable credit
+
+Version 1.0.3 [07/07/19]:
+
++ Added "sarinsa" to the gitlab project
++ Added "LocationsReader" and "LocationsWriter" classes
+! Fixed null instance error with BuyWarps.java
++ Added Logger
+! Plugin.yml main file fixed, now calls correct file as "main"
+
+
+Version 1.1 [08/07/19]:
+
++ Added teleport command
++ Added buy command
++ Added Warp list command
++ Added delete warp command
+- Removed "LocationReader"
+- Removed "LocationWriter"
+~ Updated File system
+
+
+Version 1.1.1 [09/07/19]:
+
++ Added config setup for servers
++ Colours to chat messages
+! Fixed internal errors with /bw and other argumentless commands
++ Added file to the server
+
+
+Version 1.1.2 [25/07/19]:
+
++ Added shortcut commands for easier use including 
+    "l" for list
+    "b" gor buy
+    "d" for delete
+    "w" for warp
+    
++ Added feature that allows /bw warp to be bypassed using only /bw <warp name> 
+
+Version 1.1.3 [28/07/19]:
+
++ Added the price of a warp to /bw help as per request
+

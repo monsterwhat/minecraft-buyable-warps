@@ -1,0 +1,14 @@
+name: Buyable_Warps
+version: 1.2
+description: "A Deca addon plugin that allows players to buy warps and teleport to them."
+api-version: 1.16
+author: Noobasauras_Rex
+noteable credits: Sarinsa, Random6894, Monster_What
+main: com.noobasauras.BuyableWarps
+depend: ["Vault"]
+
+commands:
+  buywarp:
+    description: "Allows a player to buy a set of co-ordinates to warp to"
+    usage: "/buywarp"
+    aliases: ["bw"]
