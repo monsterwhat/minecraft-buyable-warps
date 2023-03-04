@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -30,6 +31,7 @@ public class LocationUtil {
             try{
                 config.save(playerWarps);
             } catch (IOException e){
+                e.printStackTrace();
             }
         }
     }
@@ -39,33 +41,31 @@ public class LocationUtil {
         FileConfiguration config = getConfig(file);
 
         config.createSection(warpName);
-        config.getConfigurationSection(warpName).set("x", loc.getX());
-        config.getConfigurationSection(warpName).set("y", loc.getY());
-        config.getConfigurationSection(warpName).set("z", loc.getZ());
-        config.getConfigurationSection(warpName).set("world", loc.getWorld().getName());
-        config.getConfigurationSection(warpName).set("pitch", loc.getPitch());
-        config.getConfigurationSection(warpName).set("yaw", loc.getYaw());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("x", loc.getX());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("y", loc.getY());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("z", loc.getZ());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("world", Objects.requireNonNull(loc.getWorld()).getName());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("pitch", loc.getPitch());
+        Objects.requireNonNull(config.getConfigurationSection(warpName)).set("yaw", loc.getYaw());
 
         try{
             config.save(file);
         } catch (IOException e){
+            e.printStackTrace();
         }
     }
 
-    public static boolean deleteLocationWarp(Player player, String warpName) {
+    public static void deleteLocationWarp(Player player, String warpName) {
         File file = getFile(getUUID(player));
         FileConfiguration config = getConfig(file);
         if(config.contains(warpName)) {
             config.set(warpName, null);
             try{
                 config.save(file);
-                return true;
             } catch (IOException e){
-                return false;
+                e.printStackTrace();
             }
         }
-        return false;
-
     }
 
     public static Location teleportLocationWarp(Player player, String warpName){
@@ -79,16 +79,17 @@ public class LocationUtil {
             player.sendMessage("No warp found, are you sure that is the right name? /bw list");
             return player.getLocation();
         }
-        else
-
+        else {
+            assert section != null;
             return new Location(
-                Bukkit.getServer().getWorld(section.getString("world")),
+                Bukkit.getServer().getWorld(Objects.requireNonNull(section.getString("world"))),
                 section.getDouble("x"),
                 section.getDouble("y"),
                 section.getDouble("z"),
                 (float) section.getDouble("yaw"),
                 (float) section.getDouble("pitch")
             );
+        }
     }
 
     public static Set<String> listLocationWarp(Player player){

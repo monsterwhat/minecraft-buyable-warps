@@ -10,6 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
+import java.util.Objects;
+
 public class Actions {
 
     static void listWarps(Player player){
@@ -20,7 +22,7 @@ public class Actions {
 
     static void goToWarp(Player player, String warpName){
 
-        if (warpName == null){
+        if (warpName == null || warpName.isEmpty()){
             player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£bYou need to give a warp name!"));
             return;
         }
@@ -33,23 +35,20 @@ public class Actions {
 
     static void buyAWarp(Player player, String warpName){
 
-        if (warpName == null){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£bYou need to give your warps a name!"));
+        if (warpName == null || warpName.isEmpty()){ //checks that the warpName argument is not null or empty
+            player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£bYou need to give your warp a name!"));
             return;
         }
 
         FileConfiguration pluginConfig = YamlConfiguration.loadConfiguration(BuyableWarps.getInstance().pluginConfig);
-        int costOfAWarp = pluginConfig.getConfigurationSection("Main").getInt("Warp Cost");
-
-        Location location = player.getLocation();
+        int costOfAWarp = Objects.requireNonNull(pluginConfig.getConfigurationSection("Main")).getInt("Warp Cost");
         double playerBalance = BuyableWarps.getInstance().getEconomy().getBalance(player);
-
-
         if(playerBalance < costOfAWarp) { //checks that the player has more than 1000 currency
-
             player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£4You do not have enough money for this warp!"));
             return;
         }
+
+        Location location = player.getLocation();
 
         BuyableWarps.getInstance().getEconomy().withdrawPlayer(player, costOfAWarp);
         player.sendMessage(ChatColor.translateAlternateColorCodes('£',"£bYou have been charged " + BuyableWarps.getInstance().getEconomy().format(costOfAWarp) +
@@ -61,23 +60,17 @@ public class Actions {
 
     static void displayHelp(Player player){
         player.sendMessage("-----------------------------------");
-
         player.sendMessage(ChatColor.translateAlternateColorCodes('£',"£b/bw help : £dShows a list of commands!"));
-
         player.sendMessage(ChatColor.translateAlternateColorCodes('£',"£b/bw buy <warp name>: £dBuys a warp to the location you are currently standing at!"));
-
         player.sendMessage(ChatColor.translateAlternateColorCodes('£',"£b/bw list : £dlists all of your currently saved warps"));
-
         player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£b/bw warp <warp name> : £dteleports you to the co-ordinates of the named warp"));
-
         player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£b/bw delete <warp name> : £dDeletes the warp specified"));
-
         player.sendMessage("------------------------------------");
     }
 
     static void deleteWarp(Player player, String warpName){
 
-        if (warpName == null){
+        if (warpName == null || warpName.isEmpty()){
             player.sendMessage(ChatColor.translateAlternateColorCodes('£', "£bYou need to choose a warp to delete!"));
             return;
         }

@@ -1,7 +1,7 @@
 name: Buyable_Warps
-version: 1.2
+version: 1.3
 description: "A Deca addon plugin that allows players to buy warps and teleport to them."
-api-version: 1.16
+api-version: 1.19
 author: Noobasauras_Rex
 noteable credits: Sarinsa, Random6894, Monster_What
 main: com.noobasauras.BuyableWarps

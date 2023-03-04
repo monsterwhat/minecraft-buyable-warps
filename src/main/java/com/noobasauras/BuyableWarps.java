@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 
@@ -38,7 +39,7 @@ public class BuyableWarps extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
             logger.warning("Buyable Warps has been disabled!");
         }
-        this.getCommand("buywarp").setExecutor(new Commands()); //defines command "buywarp"
+        Objects.requireNonNull(this.getCommand("buywarp")).setExecutor(new Commands()); //defines command "buywarp"
 
         this.getServer().getPluginManager().registerEvents(new EventListener(),this); //defines the login listener
     }
@@ -94,11 +95,12 @@ public class BuyableWarps extends JavaPlugin {
             FileConfiguration fileConfig = YamlConfiguration.loadConfiguration(configFile);
 
             fileConfig.createSection("Main");
-            fileConfig.getConfigurationSection("Main").set("Warp_Cost", 10000);
+            Objects.requireNonNull(fileConfig.getConfigurationSection("Main")).set("Warp_Cost", 10000);
 
             try{
                 fileConfig.save(configFile);
             } catch (IOException e){
+                e.printStackTrace();
             }
 
         }
