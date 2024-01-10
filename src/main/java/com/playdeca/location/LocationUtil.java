@@ -1,13 +1,12 @@
-package com.noobasauras.location;
+package com.playdeca.location;
 
-import com.noobasauras.BuyableWarps;
+import com.playdeca.BuyableWarps;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -17,21 +16,19 @@ import java.util.Set;
 public class LocationUtil {
 
     public LocationUtil() {
-
     }
 
     public static void createFile(Player player){
         String UUID = player.getUniqueId().toString();
-
         File playerWarps = new File(BuyableWarps.getInstance().getDataFolder() + "/Location_YMLs", UUID + ".yml");
 
         if (!(playerWarps.exists())) {
             FileConfiguration config = getConfig(playerWarps);
-
             try{
                 config.save(playerWarps);
             } catch (IOException e){
-                e.printStackTrace();
+                Bukkit.getLogger().info("Could not create file for " + player.getName());
+                Bukkit.getLogger().info(e.getMessage());
             }
         }
     }
@@ -51,7 +48,8 @@ public class LocationUtil {
         try{
             config.save(file);
         } catch (IOException e){
-            e.printStackTrace();
+            Bukkit.getLogger().info("Could not save warp for " + player.getName());
+            Bukkit.getLogger().info(e.getMessage());
         }
     }
 
@@ -63,16 +61,15 @@ public class LocationUtil {
             try{
                 config.save(file);
             } catch (IOException e){
-                e.printStackTrace();
+                Bukkit.getLogger().info("Could not delete warp for " + player.getName());
+                Bukkit.getLogger().info(e.getMessage());
             }
         }
     }
 
     public static Location teleportLocationWarp(Player player, String warpName){
-
         File file = getFile(getUUID(player));
         FileConfiguration config = getConfig(file);
-
         ConfigurationSection section = config.getConfigurationSection(warpName);
         if (!config.contains(warpName)) {
             // Not found
@@ -93,7 +90,6 @@ public class LocationUtil {
     }
 
     public static Set<String> listLocationWarp(Player player){
-
         File file = getFile(getUUID(player));
         FileConfiguration config = getConfig(file);
         return config.getKeys(false);

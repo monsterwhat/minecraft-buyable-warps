@@ -1,16 +1,15 @@
-package com.noobasauras;
+package com.playdeca;
 
-import com.noobasauras.listeners.EventListener;
+import com.playdeca.listeners.EventListener;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 
 public class BuyableWarps extends JavaPlugin {
@@ -18,26 +17,22 @@ public class BuyableWarps extends JavaPlugin {
     public File pluginConfig;
     private static BuyableWarps instance;
     private Economy economy;
-    private Logger logger;
 
     public BuyableWarps() {
-        this.logger = getLogger();
     }
 
     @Override
     public void onEnable(){
 
         instance = this;
-        logger.info("Buyable Warps has been activated");
+        Bukkit.getLogger().info("Buyable Warps has been enabled!");
         getPluginConfig();
         createDirectory();
         createConfig();
-
-
         //Check if the server has a registered economy; disable plugin if not
         if(!(setupEconomy())){
             this.getServer().getPluginManager().disablePlugin(this);
-            logger.warning("Buyable Warps has been disabled!");
+            Bukkit.getLogger().warning("Buyable Warps has been disabled!");
         }
         Objects.requireNonNull(this.getCommand("buywarp")).setExecutor(new Commands()); //defines command "buywarp"
 
@@ -51,7 +46,6 @@ public class BuyableWarps extends JavaPlugin {
 
     private boolean setupEconomy() { //grabs what type of economy plugin is being used
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(Economy.class);
-
         if (economyProvider == null) {
             return false;
         }
@@ -70,13 +64,17 @@ public class BuyableWarps extends JavaPlugin {
 
         //Possibly redundant
         if (!getDataFolder().exists()) {
-            getDataFolder().mkdirs();
+            if(getDataFolder().mkdirs()){
+                Bukkit.getLogger().info("Created plugin directory");
+            }
         }
 
         File directory = new File(getDataFolder(), "Location_YMLs");
 
         if(!directory.exists()){
-            directory.mkdir();
+            if(directory.mkdir()){
+                Bukkit.getLogger().info("Created player_warps directory");
+            }
         }
     }
 
@@ -100,7 +98,8 @@ public class BuyableWarps extends JavaPlugin {
             try{
                 fileConfig.save(configFile);
             } catch (IOException e){
-                e.printStackTrace();
+                Bukkit.getLogger().info("Could not save config file");
+                Bukkit.getLogger().info(e.getMessage());
             }
 
         }

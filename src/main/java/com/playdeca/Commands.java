@@ -1,5 +1,6 @@
-package com.noobasauras;
+package com.playdeca;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -51,7 +52,7 @@ public class Commands implements CommandExecutor {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Bukkit.getLogger().info("Error: " + e);
             return false;
         }
     }

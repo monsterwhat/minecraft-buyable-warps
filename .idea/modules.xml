@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/minecraft-buyable-warps.iml" filepath="$PROJECT_DIR$/.idea/minecraft-buyable-warps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/minecraft-buyable-warps.main.iml" filepath="$PROJECT_DIR$/.idea/modules/minecraft-buyable-warps.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/minecraft-buyable-warps.test.iml" filepath="$PROJECT_DIR$/.idea/modules/minecraft-buyable-warps.test.iml" />
     </modules>
   </component>
 </project>
