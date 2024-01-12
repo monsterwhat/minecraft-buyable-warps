@@ -23,17 +23,19 @@ public class BuyableWarps extends JavaPlugin {
 
     @Override
     public void onEnable(){
-
         instance = this;
         Bukkit.getLogger().info("Buyable Warps has been enabled!");
-        getPluginConfig();
-        createDirectory();
-        createConfig();
+
         //Check if the server has a registered economy; disable plugin if not
         if(!(setupEconomy())){
             this.getServer().getPluginManager().disablePlugin(this);
             Bukkit.getLogger().warning("Buyable Warps has been disabled!");
         }
+
+        getPluginConfig();
+        createDirectory();
+        createConfig();
+
         Objects.requireNonNull(this.getCommand("buywarp")).setExecutor(new Commands()); //defines command "buywarp"
 
         this.getServer().getPluginManager().registerEvents(new EventListener(),this); //defines the login listener

@@ -1,6 +1,7 @@
 package com.playdeca.location;
 
 import com.playdeca.BuyableWarps;
+import com.playdeca.models.warp;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,6 +10,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -92,7 +95,31 @@ public class LocationUtil {
     public static Set<String> listLocationWarp(Player player){
         File file = getFile(getUUID(player));
         FileConfiguration config = getConfig(file);
+
         return config.getKeys(false);
+    }
+
+    public static List<warp> listLocationWarpNew(Player player){
+        File file = getFile(getUUID(player));
+        FileConfiguration config = getConfig(file);
+
+        List<warp> warps = new ArrayList<>();
+
+        for (String warpName : config.getKeys(false)) {
+            ConfigurationSection section = config.getConfigurationSection(warpName);
+            assert section != null;
+            warps.add(new warp(
+                warpName,
+                section.getDouble("x"),
+                section.getDouble("y"),
+                section.getDouble("z"),
+                section.getString("world"),
+                (float) section.getDouble("pitch"),
+                (float) section.getDouble("yaw")
+            ));
+        }
+
+        return warps;
     }
 
     private static String getUUID(Player player){
