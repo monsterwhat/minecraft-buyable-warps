@@ -5,27 +5,41 @@ plugins {
 }
 
 group = 'com.playdeca'
-version = '1.5'
+version = '1.6'
 description = 'minecraft-buyable-warps'
-sourceCompatibility = '17'
-targetCompatibility = '17'
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT" 
     api 'org.jetbrains:annotations:24.0.1'
-    compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly('com.github.MilkBowl:VaultAPI:1.7') {
+    exclude group: 'org.bukkit', module: 'bukkit'
+    } 
     implementation fileTree(dir:'libs', include: '*.jar')
     implementation group: 'org.jetbrains', name: 'annotations', version: '24.0.1'
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT'
+        eachDependency { details ->
+            if (details.requested.group == 'org.bukkit') {
+                details.useTarget 'io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT'
+            }
+        }
+    }
+}
+ 
 publishing {
     publications {
         maven(MavenPublication) {
